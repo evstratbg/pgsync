@@ -147,17 +147,6 @@ class Sync(Base):
         if rds_logical_replication:
             if rds_logical_replication.lower() == "off":
                 raise RDSError("rds.logical_replication is not enabled")
-        else:
-            if not self.has_permissions(
-                self.engine.url.username,
-                ["usesuper", "userepl"],
-            ):
-                raise SuperUserError(
-                    f'PG_USER "{self.engine.url.username}" needs to be '
-                    f"superuser or have replication role permission to "
-                    f"perform this action. "
-                    f"Ensure usesuper or userepl is True in pg_user"
-                )
 
         if self.index is None:
             raise ValueError("Index is missing for document")
